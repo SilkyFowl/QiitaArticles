@@ -96,7 +96,7 @@ Get-Variable | Where-Object Value -is [__ComObject] | Clear-Variable | Remove-Va
 [GC]::Collect()
 ```
 
-```:ダイアログが出るとまずい場合はこうする
+```powershell:ダイアログが出るとまずい場合はこうする
 $excel.DisplayAlerts = $false
 ```
 
