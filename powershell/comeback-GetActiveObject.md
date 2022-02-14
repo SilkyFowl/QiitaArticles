@@ -1,7 +1,10 @@
 <!--
-title: Powershell 6以降でもGetActiveObject()でExcelを呼ぶ方法
-tags:  PowerShell,Excel
+title:   Powershell 6以降でもGetActiveObject()でExcelを呼ぶ方法
+tags:    Excel,PowerShell
+id:      e57f1fb165cf2ea33092
+private: false
 -->
+
 
 Powershell 6以降、`[System.Runtime.InteropServices.Marshal]::GetActiveObject(progID)`はありません。ですが、作るのは簡単です。
 
