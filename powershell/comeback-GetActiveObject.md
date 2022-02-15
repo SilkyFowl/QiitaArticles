@@ -5,7 +5,6 @@ id:      e57f1fb165cf2ea33092
 private: false
 -->
 
-
 Powershell 6以降、`[System.Runtime.InteropServices.Marshal]::GetActiveObject(progID)`はありません。ですが、作るのは簡単です。
 
 ## クロスプラットフォーム化の代償

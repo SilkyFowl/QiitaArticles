@@ -4,7 +4,8 @@ tags:    ODP.NET,Oracle11g,PowerShell
 id:      dbd750d7bc225b369e33
 private: false
 -->
-Powershell7.0は.NET Core 3.1を基板としています。 
+
+Powershell7.0は.NET Core 3.1を基板としています。
 よって、Oracle.ManagedDataAccessではなく、Oracle.ManagedDataAccess.**Core**を利用します。
 
 参考: [Oracle Data Provider for .NETバージョニング体系](https://docs.oracle.com/cd/F19136_01/odpnt/InstallVersioningScheme.html#GUID-54448394-9F84-4B23-8E9B-9EC7A91B382D)
@@ -14,7 +15,6 @@ Powershell7.0は.NET Core 3.1を基板としています。
 この記事ではNugetから取得します。
 
 参考: [Oracle Data Provider for .NET Coreのインストール](https://docs.oracle.com/cd/F19136_01/odpnt/InstallVersioningScheme.html#GUID-54448394-9F84-4B23-8E9B-9EC7A91B382D)
-
 
 ```Powershell
 PS E:\> Install-Package Oracle.ManagedDataAccess.Core -scope CurrentUser -Verbose

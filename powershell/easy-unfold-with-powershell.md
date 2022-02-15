@@ -10,7 +10,6 @@ private: false
 `unfold`は高階関数の一つです。リストを生成する関数定義と初期値を引数にとってコレクションを生成します。
 `while`ループや再帰関数などの処理は、`unfold`が有効な場合があります。
 
-
 ## `Powershell`での実装
 
 こんな実装に落ち着いています。
@@ -80,7 +79,6 @@ filter unfold ([scriptblock]$generator) {
 
 結果はすべて同じです。
 
-
 ```console:result
 1
 2
@@ -98,14 +96,16 @@ filter unfold ([scriptblock]$generator) {
 }
 ```
 
-`console:result
+結果
+
+```console:result
 3
 4
 5
 4
 5
 5
-`
+```
 
 返り値が`$someVar,$null`だった場合は、`$someVar`が出力されてから`unfold`が終了します。
 本来の`unfold`には無い機能です、……多分。
@@ -116,7 +116,9 @@ filter unfold ([scriptblock]$generator) {
 }
 ```
 
-`console
+結果
+
+```console:result
 3
 4
 5
@@ -126,11 +128,11 @@ end.
 end.
 5
 end.
-`
+```
 
 #### フィボナッチ数列
 
-**6/10: 内容を修正、加筆**
+##### 6/10: 内容を修正、加筆
 
 再帰関数の例題で有名なフィボナッチ数列を考えてみましょう。
 まずは要素の値がn以上になるまで数列を生成する場合です。
@@ -148,7 +150,9 @@ $n = 1000
 }
 ```
 
-`console
+結果
+
+```console
 2
 3
 5
@@ -164,7 +168,7 @@ $n = 1000
 610
 987
 1597
-`
+```
 
 数列の順番によって生成を制御したい場合は`generator`で頑張るよりも、`unfold`で無限シーケンスを生成して、`Select-Object`で制御するほうが楽です。
 
@@ -187,7 +191,9 @@ $n = 1000
 
 ```
 
-`console
+結果
+
+```console
 2
 3
 5
@@ -205,7 +211,7 @@ $n = 1000
 
 12586269025
 354224848179261915075
-`
+```
 
 型指定をしない場合、`powershell`は暗黙的にエラーにならない数値型に変換するようです。
 特に工夫しなければ最終的にひたすら`[double]::IsInfinity`をパイプラインに流し続けるので気を付けましょう。
@@ -240,7 +246,9 @@ $n = 1000
 }
 ```
 
-`console
+結果
+
+```console
 System.Int32:   0
 System.Int32:   1
 System.Int32:   1
@@ -292,7 +300,7 @@ Line |
 1472:   System.Double:  1.90687157879931E+307
 1473:   System.Double:  3.08538302667846E+307
 1474:   System.Double:  4.99225460547777E+307
-`
+```
 
 `Select-Object`はインデックス系のオプションが指定された場合、出力するべき最後の要素をパイプラインに出力した時点でパイプライン処理を中断させる効果があります。
 大変便利なのですが、中断されるとパイプライン上流の`end`ブロックが行われなくなります。
@@ -306,7 +314,9 @@ Line |
 | ForEach-Object { 'after begin' } { $_ } { 'after end' }
 ```
 
-`console
+結果
+
+```console
 after begin
 before begin
 0
@@ -319,16 +329,13 @@ before begin
 13
 21
 after end
-`
+```
 
 問題はリソース管理です。
 この記事ではこの問題について扱っています。
 [関数内でのリソース解放処理 - PowerShell Scripting Weblog](http://winscript.jp/powershell/309)
 
-なお、`scriptblock`に`cleanup{}`というリソース解放のためのブロックを追加するというRFCがあり、これが採用されると根本的な解決となるようです。
-
-https://github.com/PowerShell/PowerShell-RFC/blob/master/2-Draft-Accepted/RFC0059-Cleanup-Script-Block.md
-
+なお、`scriptblock`に`cleanup{}`というリソース解放のためのブロックを追加するという[RFCがあり](https://github.com/PowerShell/PowerShell-RFC/blob/master/2-Draft-Accepted/RFC0059-Cleanup-Script-Block.md)、これが採用されると根本的な解決となるようです。
 
 ##### 余談:Powershellのタプル
 
@@ -344,9 +351,11 @@ $tup = [Tuple[int, int]]::new($foo, ($foo + 1))
 $tup[0]
 ```
 
-`console
+結果
+
+```console
 9
-`
+```
 
 ~~配列扱いなので複数の変数の割り当てが可能です。~~
 ~~実質デストラクタです。~~
@@ -429,7 +438,7 @@ https://docs.microsoft.com/ja-jp/dotnet/api/system.tupleextensions.deconstruct?v
 
 https://docs.microsoft.com/ja-jp/powershell/module/microsoft.powershell.core/about/about_assignment_operators?view=powershell-7.1#assigning-multiple-variables
 
-※以下のコード例では`[ValueTuple]`を使用してますが、`[Tuple]`でも動作します。。
+※以下のコード例では`[ValueTuple]`を使用してますが、`[Tuple]`でも動作します。
 
 ```powershell
 # 変数へ分割代入
@@ -466,7 +475,9 @@ $values = [ValueTuple]::Create(
 ) | Split-Tuple -Length 15
 ```
 
-`console
+結果
+
+```console
 $f, $g: 4, 12
 
 Split-Tuple: 
@@ -500,7 +511,7 @@ Line |
   32 |  ) | Split-Tuple -Length 15
      |      ~~~~~~~~~~~~~~~~~~~~~~
      | Tuple Length is 12. It should be 15.
-`
+```
 
 ### RESTメソッド
 
@@ -603,9 +614,7 @@ UExmZUE4a0lzN0NvY2lyMS1UdVNOM21PbmozcXp5UlNoQS42MjYzMTMyQjA0QURCN0JF @{title=Pub
 
 ```
 
-
 </div></details>
-
 
 ## `F#`の`unfold`
 
@@ -625,6 +634,7 @@ parameters :
 // 生成されたリスト
 Returns: seq<'T>
 ```
+
 ### 読み方
 
 - `Tin -> Tout`...「`Tin`を引数にとり、`Tout`を返す関数」を定義する`F#`の組み込み型を意味します。この関数型はPowershellにおける`[scriptblock]`に近い存在です。
@@ -653,7 +663,6 @@ SYNTAX
 OUTPUTS
     seq<T>
 ```
-
 
 以下は`generator`の一例です。
 
@@ -689,7 +698,6 @@ OUTPUTS
 コードを残す場合は履歴をコピペしてvscode等で良い感じに整形してます。
 
 ![image.png](https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/107934/3c3e2964-540f-db9e-d40a-5e007ec55a27.png)
-
 
 ### 参考:公式ドキュメント(F#)
 
@@ -737,7 +745,6 @@ The sequence fib contains Fibonacci numbers.
 2 3 5 8 13 21 34 55 89 144 233 377 610 987 1597
 ```
 
-
 ## 実装のこだわり
 
 利用時の書きやすさを実現するため、以下の目標がありました。
@@ -753,6 +760,7 @@ The sequence fib contains Fibonacci numbers.
     $arg[0] -le 5 ? $arg[0], ($arg[0] + 1) : 'end.',$null
 }
 ```
+
 これなら気になりません。
 
 ```powershell
@@ -766,7 +774,6 @@ The sequence fib contains Fibonacci numbers.
 https://docs.microsoft.com/en-us/dotnet/api/system.management.automation.scriptblock.invokewithcontext?view=powershellsdk-7.0.0#System_Management_Automation_ScriptBlock_InvokeWithContext_System_Collections_IDictionary_System_Collections_Generic_List_System_Management_Automation_PSVariable__System_Object___
 
 > `InvokeWithContext(IDictionary, List<PSVariable>, Object[])`
-
 > スクリプトブロックのスコープで定義されるローカル関数と変数のセットの形式で、追加のコンテキストでスクリプトブロックを呼び出すことができるメソッド。変数のリストには、`$input`の変数、`$_`、`$this`が含まれます。‎
 >
 > この関数のオーバーロードはハッシュテーブルを受け取り、必要な辞書に変換して、PowerShell スクリプト内から API を使いやすくします。
@@ -803,7 +810,9 @@ $sb.InvokeWithContext(
 )
 ```
 
-`console:result
+結果
+
+```console:result
 & $sb
 100
 Test-Func: 
@@ -822,7 +831,7 @@ this
 input
 20
 40
-`
+```
 
 `unfold`では`$_`の内容を制御するために使用しています。
 

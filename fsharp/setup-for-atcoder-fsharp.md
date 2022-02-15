@@ -14,7 +14,6 @@ F#でAtCoderに参加するための環境を、VS Code Remote Containers等を�
 
 等の勉強も兼ねてます。
 
-
 ## コンテナイメージ
 
 [Language Test 202001](https://atcoder.jp/contests/language-test-202001)と[こちらの記事](https://qiita.com/hinamimi/items/b3dd159f956628cebdbb "DockerでAtCoderができる環境を作る【Python・C++】")を参考にしました。
@@ -23,10 +22,10 @@ https://github.com/SilkyFowl/docker-atcoder-fs
 
 https://hub.docker.com/repository/docker/syamorock/atcoder-fs
 
-対応言語:F#(.NET Core3.1) 
-
+対応言語:F#(.NET Core3.1)
 
 組み込みインストール
+
 - [atcoder-cli](http://tatamo.81.la/blog/2018/12/07/atcoder-cli-tutorial/)
 - [online-judge-tools](https://github.com/online-judge-tools/oj)
 
@@ -107,7 +106,6 @@ https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-cont
 ワークスペースフォルダーに`./.devcontainer/devcontainer.json`を作ります。
 
 ```json
-
 // For format details, see https://aka.ms/devcontainer.json. For config options, see the README at:
 // https://github.com/microsoft/vscode-dev-containers/tree/v0.202.5/containers/cpp
 {
@@ -173,14 +171,14 @@ URL…`https://atcoder.jp/contests/abs`
 
 開発コンテナを開いて`New-AtCoderContest`を実行します。
 
-```posh
+```powershell
 New-AtCoderContest -contestId abs
 ```
 
 コンテストID名のフォルダが生成されます。
 構成は以下の通りです。
 
-```
+```console
 abs
 │  contest.acc.json
 │  abs.sln
@@ -223,7 +221,7 @@ abs
 
 ##### 自動生成されたテストプロジェクトによるテスト
 
-```posh
+```powershell
 Test-AtCoder -FolderPath <コンテストのフォルダ>
 ```
 
@@ -232,14 +230,16 @@ Test-AtCoder -FolderPath <コンテストのフォルダ>
 
 ![image.png](https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/107934/36f4c8d9-9cae-8e64-edda-59dc179b446b.png)
 
-```posh:実行例
+```powershell:実行例
 Test-AtCoder ./abs/
 ```
 
-`sh:初期状態では何も実行されない
+結果
+
+```sh:初期状態では何も実行されない
 [03:45:53 INF] EXPECTO? Running tests... <Expecto>
 [03:45:53 INF] EXPECTO! 0 tests run in 00:00:00.0187893 for miscellaneous – 0 passed, 0 ignored, 0 failed, 0 errored. Success! <Expecto>
-`
+```
 
 実施したいテストの行のコメントアウトを解除してください。
 
@@ -247,7 +247,7 @@ Test-AtCoder ./abs/
 
 テストが実施されます。
 
-```sh:何も処理を書いてないでテストは失敗します
+```console:何も処理を書いてないでテストは失敗します
 [03:49:13 INF] EXPECTO? Running tests... <Expecto>
 [03:49:13 ERR] Sample File Tests.Welcome to AtCoder sample-2 failed in 00:00:00.0450000. 
 WA:{ Parent = { Title = "Welcome to AtCoder"
@@ -295,15 +295,14 @@ expected:
 
 スイッチパラメータ`-UseOJ`で、指定したフォルダにあるプロジェクトをコンパイルして`oj t`を実行します。
 
-```posh
+```powershell
 Test-AtCoder -FolderPath <各問題のフォルダ> -UseOJ
 ```
 
 `posh
 Test-AtCoder ./abs/practicea/ -UseOJ
 
-
-```sh
+```console
   Determining projects to restore...
   Restored /workspaces/test/abs/practicea/practicea.fsproj (in 253 ms).
   practicea -> /workspaces/test/abs/practicea/bin/Release/netcoreapp3.1/ubuntu.18.04-x64/practicea.dll
@@ -397,7 +396,7 @@ PS /workspaces/test> Test-AtCoder ./abs/practicea/ -UseOJ
 解答が出来上がったら`Submit-AtCoderTask`で提出します。
 `acc submit`のラッパーです。
 
-```posh
+```powershell
 Submit-AtCoderTask -FolderPath <各問題のフォルダ>
 ```
 

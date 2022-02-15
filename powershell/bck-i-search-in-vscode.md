@@ -5,7 +5,7 @@ id:      712f19366ee1ef9dbdfd
 private: false
 -->
 # 三行で
-　
+
 1. :sparkles:VScodeでもPSReadlineが正常に動くようになりました
 2. :rotating_light: だけど、コマンド履歴検索はVScodeの他のキーバインドと競合しているため正常に動作しません
 3.　:wrench: なんとかするには`keybindings.json`に設定を書き込めば良いらしい
@@ -27,12 +27,14 @@ private: false
 ```
 
 これでコマンド履歴を検索出来ます
+
 ![image.png](https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/107934/a5d25daf-0382-3c1a-59dd-e4b40aea5563.png)
 ![image.png](https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/107934/8b69bd8e-8027-071c-758c-8c95ff05b952.png)
 ちなみに、bashもこの設定で同じことが出来ました。
 
 # 動作環境
-`console
+
+```console
 ❯ $PSVersionTable
 Name                           Value          
 ----                           -----
@@ -46,10 +48,11 @@ PSRemotingProtocolVersion      2.3
 SerializationVersion           1.1.0.1
 WSManStackVersion              3.0
 
-❯ Get-Module psreadline 
+❯ Get-Module psreadline
 ModuleType Version    PreRelease Name                                ExportedCommands
 ---------- -------    ---------- ----                                ----------------
 Script     2.1.0      beta2      PSReadLine  
-`console
+
 Visual Studio Code 1.46.1
 ms-vscode.powershell-preview
+```

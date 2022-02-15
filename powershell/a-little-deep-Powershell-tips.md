@@ -46,7 +46,9 @@ ps code | ft id,
 ps code | ft id,name,@{n='Handles';e={$_.Handles};a='left'},@{n='CPU';e={$_.CPU};f="####0.00"}
 ```
 
-```posh
+結果
+
+```powershell
    Id Name Handles    CPU
    -- ---- -------    ---
  6924 Code 1059    756.02
@@ -69,9 +71,10 @@ ps code | ft id,name,@{n='Handles';e={$_.Handles};a='left'},@{n='CPU';e={$_.CPU}
 
 #### `Compare-Object`
 
->  - `expression`
+> - `expression`
 
 `Compare-Object`はプロパティで比較基準を設定出来る。
+
 `[Process]`型を様々な方法で比較してみる。
 
 ```powershell:下準備
@@ -79,6 +82,8 @@ $ps= get-process code
 $ps[0] | fl
 $ps[1] | fl
 ```
+
+結果
 
 ```console
 Id      : 6924
@@ -170,6 +175,7 @@ SideIndicator       : <=
 ```
 
 ###### 発想を自由にする
+
 Get-Processをスクリプトブロック内で行うことで、Compare-Object実行時に実行されているプロセス数を比較している。
 
 ```Powershell
@@ -187,7 +193,7 @@ Compare-Object pwsh code -Property {(get-process $_).count}
 
 準備
 
-```posh
+```powershell
 PS >"---test.txt---"
 >> cat .\test.txt
 >>
@@ -226,7 +232,7 @@ true                           True
 
 パス名は文字列比較になってしまう
 
-```posh
+```powershell
 PS >Compare-Object .\test.txt .\test.log
 
 InputObject SideIndicator
@@ -238,7 +244,7 @@ InputObject SideIndicator
 
 公式のドキュメントではこのようにして比較してる
 
-```posh
+```powershell
 
 PS >Compare-Object (Get-Content .\test.txt) (Get-Content .\test.log)
 
@@ -276,7 +282,7 @@ Line 5                                                                          
 `Property`パラメータで演算を行うとこうなる
 結果が違うのは公式の例はファイル内容の1行ごとの文字列動詞を比較しているのに対し、この例ではファイル内容全体で比較しているため。
 
-```posh
+```powershell
 PS >Compare-Object .\test.txt .\test.log -Property {cat $_}
 
 cat $_                                                                                                               SideIndicato
@@ -289,7 +295,7 @@ cat $_                                                                          
 
 ファイルハッシュの比較も行える
 
-```posh
+```powershell
 PS >Compare-Object ((Get-FileHash .\test.txt).hash) ((Get-FileHash .\test.log).hash)
 
 InputObject                                                      SideIndicator
@@ -309,7 +315,7 @@ PS >Compare-Object .\test.txt .\test.log -Property {(Get-FileHash $_).Hash}
 
 組み合わせる
 
-```posh
+```powershell
 
 $hashParams = @{
     ReferenceObject  = get-item .\test.txt
@@ -323,6 +329,8 @@ $hashParams = @{
 }
 Compare-Object @hashParams
 ```
+
+結果
 
 ```shell-session
  $_.name                 : test.log
@@ -341,7 +349,7 @@ SideIndicator            : <=
 `IncludeEqual`パラメータで同じものを表示させる事も出来る
 ファイルをコピーして比較する
 
-```posh
+```powershell
 copy .\test.txt .\test_copied.txt -Force
 $hashParams = @{
     ReferenceObject  = get-item .\test.txt
@@ -373,7 +381,7 @@ SideIndicator            : <=
 
 名前以外を比較する
 
-```posh
+```powershell
 $hashParams = @{
     ReferenceObject  = get-item .\test.txt
     DifferenceObject = get-item .\test_copied.txt
@@ -389,6 +397,8 @@ $hashParams = @{
 Compare-Object @hashParams
 ```
 
+結果
+
 ```shell-session
  (Get-FileHash $_).Hash                                           $_.Attributes   $_.LastWriteTime   SideIndicator
 ------------------------                                         --------------- ------------------  -------------
@@ -397,70 +407,72 @@ Compare-Object @hashParams
 ```
 
 #### `ConvertTo-Html`
->- `ConvertTo-Html`
->  - `name`/`label` - optional (added in PowerShell 6.x)
->  - `expression`
->  - `width` - optional
->  - `alignment` - optional
 
-####  `Format-Custom`
+>- `ConvertTo-Html`
+> - `name`/`label` - optional (added in PowerShell 6.x)
+> - `expression`
+> - `width` - optional
+> - `alignment` - optional
+
+#### `Format-Custom`
+
 >- `Format-Custom`
->  - `expression`
->  - `depth` - optional
+> - `expression`
+> - `depth` - optional
 
 #### `Format-List`
+
 >- `Format-List`
->  - `name`/`label` - optional
->  - `expression`
->  - `formatstring` - optional
+> - `name`/`label` - optional
+> - `expression`
+> - `formatstring` - optional
 >
->  This same set of key-value pairs also apply to calculated property values
->  passed to the **GroupBy** parameter for all `Format-*` cmdlets.
+> This same set of key-value pairs also apply to calculated property values
+> passed to the **GroupBy** parameter for all `Format-*` cmdlets.
 
 #### `Format-Table`
 
 >- `Format-Table`
->  - `name`/`label` - optional
->  - `expression`
->  - `formatstring` - optional
->  - `width` - optional
->  - `alignment` - optional
+> - `name`/`label` - optional
+> - `expression`
+> - `formatstring` - optional
+> - `width` - optional
+> - `alignment` - optional
 
 #### `Format-Wide`
 >
 >- `Format-Wide`
->  - `expression`
->  - `formatstring` - optional
+> - `expression`
+> - `formatstring` - optional
 
 #### `Group-Object`
 
 >- `Group-Object`
->  - `expression`
+> - `expression`
 
 #### `Measure-Object`
 
 >- `Measure-Object`
->  - Only supports a script block for the expression, not a hashtable.
->  - Not supported in PowerShell 5.1 and older.
+> - Only supports a script block for the expression, not a hashtable.
+> - Not supported in PowerShell 5.1 and older.
 
 #### `Select-Object`
 
 >- `Select-Object`
->  - `name`/`label` - optional
->  - `expression`
+> - `name`/`label` - optional
+> - `expression`
 
 #### `Sort-Object`
 
 >- `Sort-Object`
->  - `expression`
->  - `ascending`/`descending` - optional
+> - `expression`
+> - `ascending`/`descending` - optional
 
 #### 補足
 
 >> [!NOTE]
 >> The value of the `expression` can be a script block instead of a
 >> hashtable. For more information, see the [Notes](#notes) section.
-
 
 ## お気に入りの拡張モジュール・Nugetのライブラリ
 
@@ -477,7 +489,7 @@ Powershellの真価はModule/外部ライブラリ取り込める拡張性にあ
 - インストールしたモジュールが使っているアセンブリの解析
   - 主にNugetで公開されているライブラリ、そのラッパーモジュールで使用。
 
-```posh
+```powershell
 ❯ gcm -mo ClassExplorer
 
 CommandType     Name                                               Version    Source

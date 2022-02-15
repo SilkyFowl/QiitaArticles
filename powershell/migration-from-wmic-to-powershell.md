@@ -37,7 +37,7 @@ https://docs.microsoft.com/ja-jp/powershell/module/microsoft.wsman.management/ab
 ### エイリアス
 
 CommandType| Name|Version|Source
-|:-----------|:------------|:------------:|:------------:|    
+|:-----------|:------------|:------------:|:------------:|
 Alias|gcai -> Get-CimAssociatedInstance|7.0.0.0    |CimCmdlets|
 Alias|gcim -> Get-CimInstance|7.0.0.0    |CimCmdlets|
 Alias|gcls -> Get-CimClass|7.0.0.0    |CimCmdlets|
@@ -56,7 +56,7 @@ Alias|scim -> Set-CimInstance|7.0.0.0    |CimCmdlets|
 Powershellでwmiクラスを定義する方法
 cimクラスはよくわからなかった……
 
-```posh
+```powershell
 $newClass = [wmiclass]::new("root\cimv2", [String]::Empty, $null); 
 $newClass.Name= "Test_Class"
 

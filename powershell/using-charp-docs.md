@@ -87,6 +87,7 @@ ToUInt32    Method     uint IConvertible.ToUInt32(System.IFormatProvider provide
 ToUInt64    Method     ulong IConvertible.ToUInt64(System.IFormatProvider provider)
 TryFormat   Method     bool TryFormat(System.Span[char] destination, [ref] int charsWritten, System.ReadOnlySpan[char] format, System.IFormatProvider provider)
 ```
+
 </div></details>
 
 #### 文字列
@@ -126,6 +127,7 @@ ToUInt32    Method     uint IConvertible.ToUInt32(System.IFormatProvider provide
 ToUInt64    Method     ulong IConvertible.ToUInt64(System.IFormatProvider provider)
 TryFormat   Method     bool TryFormat(System.Span[char] destination, [ref] int charsWritten, System.ReadOnlySpan[char] format, System.IFormatProvider provider)
 ```
+
 </div></details>
 
 ### メソッド実行
@@ -355,7 +357,7 @@ D:\
 
 ### usingについて
 
-公式ドキュメント：[about_Using - PowerShell | Microsoft Docs ](https://docs.microsoft.com/ja-jp/powershell/module/microsoft.powershell.core/about/about_using?view=powershell-7)
+公式ドキュメント：[about_Using - PowerShell | Microsoft Docs](https://docs.microsoft.com/ja-jp/powershell/module/microsoft.powershell.core/about/about_using?view=powershell-7)
 
 Powershellのusingは3つの使い方がある。
 
@@ -394,13 +396,12 @@ PS > $dic.Count
 
 ```
 
-
 ### （7月13日(月)修正）Genericメソッドで型引数を指定する方法
 
 Powershellは構文として型引数を設定したGenericメソッドの実行をサポートしていないので`MethodInfo.MakeGenericMethod(Type[])`を利用する。
 
 参考
-[MethodInfo.MakeGenericMethod(Type[]) メソッド (System.Reflection) | Microsoft Docs ](https://docs.microsoft.com/ja-jp/dotnet/api/system.reflection.methodinfo.makegenericmethod?view=netcore-3.1)
+[MethodInfo.MakeGenericMethod(Type[]) メソッド (System.Reflection) | Microsoft Docs](https://docs.microsoft.com/ja-jp/dotnet/api/system.reflection.methodinfo.makegenericmethod?view=netcore-3.1)
 [vors/GenericMethods.ps1](https://gist.github.com/vors/d6a70e5d3439e928e603)
 
 ```powershell
@@ -417,7 +418,6 @@ MethodInvocationException: Exception calling "Invoke" with "2" argument(s): "Par
 
 ただし、厳密に型を合わせることにより、型引数の設定は省略が出来る。
 
-
 >>Powershellではサポートしていないので ...
 >
 >ぢつは、厳密に型を合わせれば、呼べなくもない
@@ -431,18 +431,17 @@ MethodInvocationException: Exception calling "Invoke" with "2" argument(s): "Par
 >[Enumerable]::Select($a0, $fn -as [Func[object, object]])
 >`
 >
-> [@ktz_aliasさん](https://qiita.com/ktz_alias)の[コメントより(一部抜粋)] (https://qiita.com/SilkyFowl/items/1722335fa769067375ee#comment-37fcddddc767e4f582ad)
+> [@ktz_aliasさん](https://qiita.com/ktz_alias)の[コメントより(一部抜粋)](https://qiita.com/SilkyFowl/items/1722335fa769067375ee#comment-37fcddddc767e4f582ad)
 
 公式ドキュメントの関連箇所(推定)
 
 >型引数は省略することもできます。コンパイラが推定します。 次は、前の呼び出しと同じように Swap を呼び出します。
 [ジェネリック メソッド - C# プログラミング ガイド | Microsoft Docs](https://docs.microsoft.com/ja-jp/dotnet/csharp/programming-guide/generics/generic-methods)
 
-
 ## 実践～MSDNの記事を利用する～
 
 お題は`Form`の記事のサンプルコード
-[Form クラス (System.Windows.Forms) | Microsoft Docs ](https://docs.microsoft.com/ja-jp/dotnet/api/system.windows.forms.form?view=netcore-3.1)
+[Form クラス (System.Windows.Forms) | Microsoft Docs](https://docs.microsoft.com/ja-jp/dotnet/api/system.windows.forms.form?view=netcore-3.1)
 
 ### その1：そのままPowershellに置き換える
 
@@ -593,7 +592,7 @@ IL、リフレクションを使えば大体のことは出来るが手間がか
 
 ### 参考
 
-[High Performance PowerShell with LINQ ](https://www.red-gate.com/simple-talk/dotnet/net-framework/high-performance-powershell-linq/#post-71022-_Toc482783714)
+[High Performance PowerShell with LINQ](https://www.red-gate.com/simple-talk/dotnet/net-framework/high-performance-powershell-linq/#post-71022-_Toc482783714)
 PowershellでLinqするためのレシピ。個人的に`Sum()`をよく使う。(`Measure-Object`よりも簡潔に書けるから)
 
 ## 終わりに

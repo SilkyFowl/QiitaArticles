@@ -4,12 +4,13 @@ tags:    PowerShell
 id:      49d175a495c5c43a15b9
 private: false
 -->
+
 ふと思い立ったその日がFizzBuzz日和な気がしました。
 
 # きっかけ
 
 こちらの記事を読んで、去年11月ごろにFizzBuzzに挑んでいたことを思い出したんです。
-[世界のプログラミング言語(25) PowerShell - マイクロソフトのモダンでオープンなシェル言語](https://news.mynavi.jp/article/programinglanguageoftheworld-25/ #マイナビニュース)
+[世界のプログラミング言語(25) PowerShell - マイクロソフトのモダンでオープンなシェル言語](https://news.mynavi.jp/article/programinglanguageoftheworld-25/#マイナビニュース)
 
 ```Powershell
 # ワンライナー
@@ -48,11 +49,12 @@ private: false
 ```
 
 短縮ポイント
+
 - Powershell7.0の機能を使う
-    - 三項演算子　`<condition> ? <if-true> : <if-false>`
-    - null合体演算子 `$x ??　"右辺は左辺がNullなら実行される"`
+  - 三項演算子　`<condition> ? <if-true> : <if-false>`
+  - null合体演算子 `$x ??　"右辺は左辺がNullなら実行される"`
 - 作らなくていい変数は作らない
 - 文字数節約のために`$null`じゃなくて未定義変数を使う
-   - 定義してない変数にアクセスすると`null`が返ってくる性質を利用
+  - 定義してない変数にアクセスすると`null`が返ってくる性質を利用
 
 これが一番短いとはいえないけど、結構いい線いっていると思います。

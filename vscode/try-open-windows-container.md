@@ -78,6 +78,7 @@ RUN mkdir C:\Windows\System32\WindowsPowerShell; `
 ```
 
 シンボリックリンクは2つ必要です
+
 - `C:\Windows\System32\WindowsPowerShell\v1.0`→pwsh.exeのあるフォルダ
 - powershell.exe→pwsh.exe
 
@@ -88,7 +89,7 @@ RUN mkdir C:\Windows\System32\WindowsPowerShell; `
 大体はpwshでもうまく動きますが、そうもいかない箇所があります。
 エラーを回避するために以下のProfileをコンテナ内に仕込みます。
 
-```posh
+```powershell
 function gcim {
     switch ($args[0]) {
         "win32_process" {

@@ -5,18 +5,20 @@ id:      6cb36ce997868b6b2b69
 private: false
 -->
 # これは何？
+
 Powershellの補完機能についての備忘録です。
 
 ※**MSDocs自体の記事検索REST APIのレファレンスを探しています。ご存じでしたらコメントしていただけると幸いです。**
 
 ## ゴール
+
 表題どおりです。Powershellからググりたかったんです……
 
 <script id="asciicast-359853" src="https://asciinema.org/a/359853.js" async></script>
 
 ソースはこちら。最低限の動作は出来ましたが色々リファクタリングしたい感じです......
 
-```posh
+```powershell
 using namespace System.Management.Automation
 using namespace System.Collections
 using namespace System.Collections.Generic
@@ -136,6 +138,7 @@ if (-not(Test-Path Alias:\shDotnetApiBrw)) {
 **今回は大体が準備になってしまったので入力補完の踏み込んだ解説は次回以降となります。**
 
 ## 環境
+
 >新しいクロスプラットフォームの PowerShell をお試しください https://aka.ms/pscore6
 
 ```powershell
@@ -154,6 +157,7 @@ PSRemotingProtocolVersion      2.3
 SerializationVersion           1.1.0.1
 WSManStackVersion              3.0
 ```
+
 ### Scoop
 
 基本的にCUI系のツールはScoopで揃えてます
@@ -196,7 +200,7 @@ Installed apps:
 
 最近はコンソールで色々するのでそれなりに弄ってます。
 
-```posh:profile.ps1
+```powershell:profile.ps1
 # PsReadLine 設定
 . $PSScriptRoot/Setting_PsReadLine.ps1
 
@@ -224,11 +228,11 @@ function prompt {
 }
 ```
 
-`PsReadLine`は是非カスタマイズしましょう。使い勝手が大きく変わります 
+`PsReadLine`は是非カスタマイズしましょう。使い勝手が大きく変わります。
 
 >[【PowerShell】PsReadLine 設定のススメ](https://qiita.com/AWtnb/items/5551fcc762ed2ad92a81)
 
-```posh:Setting_PsReadLine.ps1
+```powershell:Setting_PsReadLine.ps1
 using namespace Microsoft.PowerShell
 
 # https://qiita.com/AWtnb/items/5551fcc762ed2ad92a81#履歴管理
@@ -371,7 +375,9 @@ Set-PSReadLineKeyHandler -Key UpArrow -Function HistorySearchBackward
 Set-PSReadLineKeyHandler -Key DownArrow -Function HistorySearchForward
 ```
 
-`posh:Setting_Completion.ps1
+Profileが大きくなってきたらファイル分割すると管理が楽になります。
+
+```powershell:Setting_Completion.ps1
 # dotnet CLI
 Register-ArgumentCompleter -Native -CommandName "dotnet" -ScriptBlock {
     param($commandName, $wordToComplete, $cursorPosition)
@@ -386,7 +392,7 @@ import-Module DockerCompletion
 
 # StarShip
 Invoke-Expression (@(starship completions powershell) -join "`n")
-`
+```
 
 ### 余談：StarShip x Powershellの小技
 
@@ -399,14 +405,15 @@ StarShipには[Shellコマンドを使って表示をカスタマイズ出来る
 
 そもそも、`&starship init powershell`では一体何をしているのでしょう？確かめてみます。
 
-```posh
+```powershell
 ~
 ❯ starship init powershell
 Invoke-Expression (@(&"C:\Users\user\scoop\apps\starship\current\starship.exe" init powershell --print-full-init) -join "`n")
 ```
+
 入れ子になっているようです。更に展開してみます。
 
-```posh
+```powershell
 ~
 ❯ starship init powershell --print-full-init
 #!/usr/bin/env pwsh
@@ -441,18 +448,17 @@ $ENV:STARSHIP_SHELL = "powershell"
 見つけました。`function global:prompt`がプロンプト表示を司る関数です。
 この処理が終わった後に以下の手順でStarShipの表示に手を加えることが出来ます。
 
-#####`Invoke-Expression (&starship init powershell)`の後で更新された`prompt`の中身を任意の変数へキャプチャする
+##### `Invoke-Expression (&starship init powershell)`の後で更新された`prompt`の中身を任意の変数へキャプチャする
 
-```posh
+```powershell
 $starshipPrompt = (Get-Item Function:\prompt).ScriptBlock
 ```
 
 ※Powershellはファイルシステム以外にも関数や変数、レジストリでも`ls`や`cd`が使えます。
 
-
 ##### キャプチャした変数を材料に、新しい`prompt`を定義する
 
-```posh
+```powershell
 function prompt {
 
     # 出力結果
@@ -483,7 +489,10 @@ symbol = ""
 variable = "Ansi"
 style = "bold"
 ```
-`posh
+
+このように設定すると......
+
+```posh
 ~
 ❯ Test-Path Env:\Ansi
 False
@@ -500,7 +509,7 @@ False
 
 まあ、こんな感じでしょう。ところで、StarShip x Powershellの場合は**`[string]`にキャスト出来るなら何を入れても良いようです。**
 
-```posh:コマンドレットの結果を突っ込めちゃいました
+```powershell:コマンドレットの結果を突っ込めちゃいました
 ❯ $env:Ansi=@(ps pwsh | oss) -join "`n"
 
 ~ with
@@ -514,7 +523,9 @@ False
 ❯
 ```
 
-`posh:ファイル経由でEmoji
+つまり、こういうことです。
+
+```powershell:ファイル経由でEmoji
 ❯ cat C:\Users\user\AppData\Local\Temp\pwshTest.ps1
 -join ("鬱です🥺", "鬱😥", "う", "！", "😭"|%{}{$_*8}{([char[]]"SocialDistance" -join "　")+'（辛く苦しい社会から離脱）'})
 
@@ -543,10 +554,11 @@ False
 ❯
 
 ```
+
 [※シェル芸Botをよろしくお願いします。](https://twitter.com/minyoruminyon?s=20)
 
 そして、数年前からWindows10でもANSIエスケープシーケンスを使えます。
->[Console Virtual Terminal Sequences - Windows Console | Microsoft Docs] (https://docs.microsoft.com/en-us/windows/console/console-virtual-terminal-sequences)
+>[Console Virtual Terminal Sequences - Windows Console | Microsoft Docs](https://docs.microsoft.com/en-us/windows/console/console-virtual-terminal-sequences)
 
 ![image.png](https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/107934/4c96a829-e9d5-ceef-5c6e-fa7089a4604d.png)
 
@@ -561,13 +573,13 @@ False
 ### プロンプト周りのデバッグ方法
 
 自分の環境の場合、プロンプト周りのデバッグはコンソール上で行った方が色々と簡単でした。
->[about_Debuggers - PowerShell | Microsoft Docs ](https://docs.microsoft.com/ja-jp/powershell/module/microsoft.powershell.core/about/about_debuggers?view=powershell-7)
+>[about_Debuggers - PowerShell | Microsoft Docs](https://docs.microsoft.com/ja-jp/powershell/module/microsoft.powershell.core/about/about_debuggers?view=powershell-7)
 
 ### TabExpansion2
 
 ### [CommandCompletion]::CompleteInput
 
-```posh
+```powershell
 ❯ $result=[System.Management.Automation.CommandCompletion]::CompleteInput(
 >>                                   <#inputScript#>  $inputScript,
 >>                                   <#cursorColumn#> $cursorColumn,
@@ -591,7 +603,9 @@ BaseAddress                BaseAddress                  Property System.IntPtr B
 B
 ```
 
-`posh
+ということは
+
+```powershell
 ~
 ❯ ps -Hit Command breakpoint on 'TabExpansion2'
 
@@ -682,6 +696,6 @@ IsPublic IsSerial Name                                     BaseType
 -------- -------- ----                                     --------
 True     False    CommandCompletion                        System.Object
 
-`
+```
 
 次の記事ではデバッグ方法の詳細、補完入力の仕組みの解析、その結果の応用（冒頭のスクリプトについて解説）を行いたいと思います。

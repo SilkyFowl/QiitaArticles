@@ -37,22 +37,22 @@ function New-MsAccessConnection {
 }
 ```
 
-### プロバイダ名設定方法
+## プロバイダ名設定方法
 
 OledbでAccessに接続する際、バージョン違いで動作しないという事態を避けるには実行環境で利用可能なプロバイダ名を動的に取得する必要があります。
 その方法の比較です。
 1秒弱の処理時間を許容出るなら、安全で（比較的）可読性の高い`OleDbEnumerator`の方が良いでしょう。
 
-#### `OleDbEnumerator`を利用する
+### `OleDbEnumerator`を利用する
 
 `OleDbEnumerator`クラスで利用可能なプロバイダを全て取得。その中から目的のプロバイダ名を取得する方法
 
-##### メリット
+#### メリット
 
 安全
 Powershell(.NET)から認識可能なプロバイダから選ぶ方式なので存在しないプロバイダを指定していないか考える必要がなくなる
 
-##### デメリット
+#### デメリット
 
 遅い
 この処理だけで1秒弱かかる。体感的には少しもたつくレベル。
@@ -65,16 +65,16 @@ Measure-Command {
 938.4963
 ```
 
-#### レジストリからOfficeのバージョンナンバー取得する
+### レジストリからOfficeのバージョンナンバー取得する
 
 現状のバージョンナンバー付与のルールがOfficeのバージョンナンバーと一致している事を利用した方法
 
-##### メリット
+#### メリット
 
 早い
 殆ど気にならないレベル
 
-#####デメリット
+#### デメリット
 
 様々な要因で動作しなくなる可能性がある
 
@@ -91,6 +91,7 @@ Measure-Command {
 
 45.4354
 ```
+
 この方法を使った場合のコードは以下の通り
 
 ```powershell
@@ -176,6 +177,7 @@ function Get-MsAccessERInfo {
     return [DataSet]$dataSet
 }
 ```
+
 Powershell7.1から正式機能になったNull 条件演算子(`?.` と `?[]`)を使用しています。
 Powershell7.0の場合は`Enable-ExperimentalFeature`で有効にしてください
 
@@ -187,7 +189,7 @@ Enable-ExperimentalFeature PSNullConditionalOperators
 
 以下のように修正することでPowershell5.1でも動きます
 
-#### `New-MsAccessConnection `
+#### `New-MsAccessConnection`
 
 ```powershell
 using namespace  System.Data
@@ -286,7 +288,9 @@ function Get-MsAccessERInfo {
 }
 ```
 
-`diff
+Null 条件演算子は無いので`if`に修正
+
+```diff
 @@ -6,8 +6,7 @@ function Get-MsAccessERInfo {
      param (
          [Parameter(Mandatory, Position = 0)]
@@ -328,8 +332,6 @@ function Get-MsAccessERInfo {
 
      # 返り値はDataset
 ```
-
-Null 条件演算子は無いので`if`に修正
 
 ## おまけ：アセンブリ内のEnumを取得
 

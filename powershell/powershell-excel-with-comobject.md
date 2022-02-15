@@ -143,7 +143,7 @@ PS D:\> (Get-CimInstance -Class Win32_Process -Filter "ProcessId = $((ps excel).
 PS D:\> ps excel | kill
 ```
 
-~~通常の場合、プロセスのコマンドラインはExcelの実行ファイルのパスだけです。それに対し、COMオブジェクトでExcelを操作する場合は` /automation -Embedding`というオプションが付いています。（すでに実行しているプロセスからCOMオブジェクトのインスタンスを生成する場合については割愛します）~~
+~~通常の場合、プロセスのコマンドラインはExcelの実行ファイルのパスだけです。それに対し、COMオブジェクトでExcelを操作する場合は`/automation -Embedding`というオプションが付いています。（すでに実行しているプロセスからCOMオブジェクトのインスタンスを生成する場合については割愛します）~~
 
 ```powershell:操られてるExcel
 # 冒頭のスクリプトのコメントアウトを解除する

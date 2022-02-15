@@ -11,9 +11,9 @@ private: false
 
 ## COMオブジェクト(RCW)を扱うコツ
 
-参考記事:[Answer: Clean up Excel Interop Objects with IDisposable ](https://stackoverflow.com/a/25135685?stw=2 )
+参考記事:[Answer: Clean up Excel Interop Objects with IDisposable](https://stackoverflow.com/a/25135685?stw=2 )
 
-#### 要約（DeepL）
+### 要約（DeepL）
 
 - 「2ドットルール」を守ってオブジェクトの参照を保存して`Marshal.ReleaseComObject()`を呼び出す必要はない
 - `GC.Collect()`、`GC.WaitForPendingFinalizers()`を呼び出して明示的にガベージコレクタを実行すれば解放される
@@ -322,6 +322,7 @@ gv | ? Value -is [__ComObject] | clv
 
 & $EnumRcw pwsh
 ```
+
 <details><summary>結果</summary><div>
 
 ```shell-session:結果
@@ -609,7 +610,6 @@ Amd64
 
 ##### Windows Powershell5.1の場合
 
-
 ```powershell
 $excelPath = gci D:\temp\Events.xlsx
 
@@ -803,7 +803,7 @@ Amd64
      1F5C0343638           32 System.__ComObject 1 False System.Runtime.InteropServices.ComTypes.ITypeInfo,
 ```
 
-</div></details>　
+</div></details>
 
 ## 逆に考えるんだ 「解放処理するべき変数が分からなくてもいいさ」と考えるんだ
 
