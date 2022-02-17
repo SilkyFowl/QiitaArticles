@@ -9,23 +9,23 @@ private: false
 こんな記事を書きましたが、実はPowershellでCOMオブジェクト(RCW)を扱うのは面倒じゃありませんでしたという記事です。
 [OfficeをCOM Object経由でPowershellから扱うときの面倒を少しマシにする](2020-06-08_Excel_PowerShell_VBA_office_b9a2d7c77312721c3c1a.md)
 
-## COMオブジェクト(RCW)を扱うコツ
+# COMオブジェクト(RCW)を扱うコツ
 
 参考記事:[Answer: Clean up Excel Interop Objects with IDisposable](https://stackoverflow.com/a/25135685?stw=2 )
 
-### 要約（DeepL）
+## 要約（DeepL）
 
 - 「2ドットルール」を守ってオブジェクトの参照を保存して`Marshal.ReleaseComObject()`を呼び出す必要はない
 - `GC.Collect()`、`GC.WaitForPendingFinalizers()`を呼び出して明示的にガベージコレクタを実行すれば解放される
 - だたし、**どこにコードを書くのかが非常に重要**。よくある記事の場合、Excel関連の操作を小さなヘルパーメソッドに移動するとうまくいく
 
-#### やってみた
+# やってみた
 
 EnumRcw.exe…COMの解放漏れをチェックするツールをお借りしました。
 > [.NETを使った別プロセスのOfficeの自動化が面倒なはずがない―そう考えていた時期が俺にもありました。](https://qiita.com/mima_ita/items/aa811423d8c4410eca71)
 [RCWのオブジェクトの状況を監視する。](https://qiita.com/mima_ita/items/aa811423d8c4410eca71#rcw%E3%81%AE%E3%82%AA%E3%83%96%E3%82%B8%E3%82%A7%E3%82%AF%E3%83%88%E3%81%AE%E7%8A%B6%E6%B3%81%E3%82%92%E7%9B%A3%E8%A6%96%E3%81%99%E3%82%8B)
 
-##### pwsh 7.1 rc-1の場合
+## pwsh 7.1 rc-1の場合
 
 検証をして気付いたのですが、正しく参照が解放されているとExcelプロセスは`Quit()`をしなくても終了するようです。
 なお、Excelを可視化して通常通りの操作を行うと参照が全て解放されていてもプロセスは終了せず、手動でExcelを閉じると終了しました。
@@ -142,7 +142,7 @@ Amd64
 
 </div></details>
 
-##### Windows Powershell5.1の場合
+## Windows Powershell5.1の場合
 
 Windows10標準機能なPowershellはこちらです。
 最後に残る2つのオブジェクトはベストプラクティスを守っても残るようです。
@@ -278,7 +278,7 @@ Amd64
 
 </div></details>
 
-## 更に踏み込む
+# 更に踏み込む
 
 この結果を見るに、「ベストプラクティス」とCOMオブジェクト操作コードの分離はCOMオブジェクトの参照の解放という点で同じ事をしていることになります。
 両者の共通点は全てのCOMオブジェクトを参照不可にしていることです。割愛しますが、ガベージコレクトの仕組み上、参照可能なポイントが全て消滅することは重要な意味を持ちます。
@@ -288,7 +288,7 @@ Amd64
 何が言いたいかというと、理屈上はCOMオブジェクトを割り当てた全ての変数に`$null`を代入してからガベージコレクトを実行しても正しい解放が可能です。
 何より重要なのは、**この条件ならPowershellで行うのはとても簡単**ということです。
 
-##### pwsh 7.1 rc-1の場合
+## pwsh 7.1 rc-1の場合
 
 ```powershell
 $EnumRcw = '~\Repos\MemoryCheck\bin\x64\Release\EnumRcw.exe'
@@ -443,7 +443,7 @@ Amd64
 
 </div></details>
 
-##### pwsh 7.1 rc-1の場合（何処かに暗黙の参照が残るような操作を行った場合）
+## pwsh 7.1 rc-1の場合（何処かに暗黙の参照が残るような操作を行った場合）
 
 ```powershell
 $EnumRcw = '~\Repos\MemoryCheck\bin\x64\Release\EnumRcw.exe'
@@ -608,7 +608,7 @@ Amd64
 
 </div></details>
 
-##### Windows Powershell5.1の場合
+## Windows Powershell5.1の場合
 
 ```powershell
 $excelPath = gci D:\temp\Events.xlsx
@@ -805,7 +805,7 @@ Amd64
 
 </div></details>
 
-## 逆に考えるんだ 「解放処理するべき変数が分からなくてもいいさ」と考えるんだ
+# 逆に考えるんだ 「解放処理するべき変数が分からなくてもいいさ」と考えるんだ
 
 重要なのは`gv | ? Value -is [__ComObject] | clv`です。エイリアスを使わないと以下のようになります。
 
@@ -820,7 +820,7 @@ Get-Variable | Where-Object Value -is [__ComObject] | Clear-Variable
 この方法の嬉しいとこは解放が必要な変数の数や名前を覚える必要が無いことです。
 `[System.Runtime.InteropServices.Marshal]::ReleaseComO　bject()`を使う場合と違って解放する順序を気にする必要もあり ません。
 
-### それでも残る参照への対処
+# それでも残る参照への対処
 
 `Get-Variable | Where-Object Value -is [__ComObject] | Clear-Variable`でも解放されない参照はPowershell内部の自動処理の影響で通常ではアクセス出来ない所に参照が残っていると考えると良いでしょう。
 COMオブジェクトをパイプラインで`Select-Object`する場合などが該当します。
@@ -829,6 +829,6 @@ COMオブジェクトをパイプラインで`Select-Object`する場合など�
 新しい参照でCOMへの参照を上書きすることで解放を実現します。
 ※もしかしたら`Get-Variable`のパラメータを適切に設定すれば不要かも知れませんが今は分からないのでこの方法を使っています。
 
-## おわりに
+# おわりに
 
 今回のアプローチとは逆に、[Microsoft.Diagnostics.Runtime](https://github.com/microsoft/clrmd)のアセンブリをPowershellでロード、自らのプロセスの未解放COMオブジェクトのアドレスを収集させるバックグラウンドジョブを生成、そのアドレスを元に一つ残らずReleaseCOMObjectする方法も出来そうですが手間なので必要になったら検討します。
