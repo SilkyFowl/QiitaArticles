@@ -23,7 +23,8 @@ private: false
 
 EnumRcw.exe…COMの解放漏れをチェックするツールをお借りしました。
 > [.NETを使った別プロセスのOfficeの自動化が面倒なはずがない―そう考えていた時期が俺にもありました。](https://qiita.com/mima_ita/items/aa811423d8c4410eca71)
-[RCWのオブジェクトの状況を監視する。](https://qiita.com/mima_ita/items/aa811423d8c4410eca71#rcw%E3%81%AE%E3%82%AA%E3%83%96%E3%82%B8%E3%82%A7%E3%82%AF%E3%83%88%E3%81%AE%E7%8A%B6%E6%B3%81%E3%82%92%E7%9B%A3%E8%A6%96%E3%81%99%E3%82%8B)
+>
+> [RCWのオブジェクトの状況を監視する。](https://qiita.com/mima_ita/items/aa811423d8c4410eca71#rcw%E3%81%AE%E3%82%AA%E3%83%96%E3%82%B8%E3%82%A7%E3%82%AF%E3%83%88%E3%81%AE%E7%8A%B6%E6%B3%81%E3%82%92%E7%9B%A3%E8%A6%96%E3%81%99%E3%82%8B)
 
 ## pwsh 7.1 rc-1の場合
 
