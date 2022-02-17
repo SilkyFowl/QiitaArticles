@@ -68,7 +68,7 @@ public static class Marshal2
 
 ```
 
-`Marshal2`というクラス名には特に意味はありません。重要なのは中で読んでいる3つのWindows API関数です。これで、Powershell6以降でも起動済みのExcelを捕まえることができます。
+`Marshal2`というクラス名には特に意味はありません。重要なのは中で呼んでいる3つのWindows API関数です。これで、Powershell6以降でも起動済みのExcelを捕まえることができます。
 
 :::note info
 `Add-Type`によるC#コード埋め込みは[MSDNにも書いてある](https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.utility/add-type?view=powershell-7.2#examples)由緒正しき方法です。
